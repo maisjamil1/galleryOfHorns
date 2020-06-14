@@ -20,7 +20,7 @@ h2 {
 img {
     height: 200px;
     width: 200px;
-    margin-top: 15px;
+    margin-top: 30px;
     border: 1px solid thistle;
     border-radius: 8%;
 }
@@ -30,7 +30,7 @@ h1 {
 }
 main {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     display: flex;
     flex-wrap: wrap;
 }
@@ -47,7 +47,9 @@ main {
 <body>
   <h1 style="color: blueviolet;">gallery of horns</h1>
   <div id="show" style="background-color: chartreuse;"></div>
-
+  <select>
+    
+  </select>
   <main>
     
       <div  id="photo-template">
@@ -99,6 +101,22 @@ main {
       //       }
       //     })
       //=============================================================
+      //to get data from json file
+      const readJson = () => {
+        $.ajax(`page-1.json`, { method: 'GET', dataType: 'JSON' }).then(data => {
+          // console.log(data);
+          data.forEach(animalItem => {
+            let animal = new Image(animalItem);
+            animal.render();
+            // renderSelection();
+          animal.renderOptions();
+          });
+        })
+      }
+      readJson();
+
+
+
       //to creat objects so i can renderd the data from the obj ..icant from json directly
       function Image(animal) {
         this.title = animal.title;
@@ -110,6 +128,8 @@ main {
       }
       Image.all = []
       console.log(Image.all);
+
+
 
       Image.prototype.render = function () {
         let $animalClone = $("#photo-template").clone();
@@ -124,20 +144,13 @@ main {
       };
 
 
+      Image.prototype.renderOptions = function () {
+        let $animalOption = $('<option></option>').text(this.title);
+        $animalOption.attr('value', this.keyword)
+        $('select').append($animalOption);
 
+    }
 
-      //to get data from json file
-      const readJson = () => {
-        $.ajax(`page-1.json`, { method: 'GET', dataType: 'JSON' }).then(data => {
-          // console.log(data);
-          data.forEach(animalItem => {
-            let animal = new Image(animalItem);
-            animal.render();
-            // renderSelection();
-          });
-        })
-      }
-      readJson();
 
 
 
